@@ -1,0 +1,19 @@
+export function createMovieCard(movie){
+
+  const card = document.createElement("div")
+ 
+  const poster = movie.poster_path
+   ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+   : "assets/temp/placeholder.jpg"
+ 
+  card.innerHTML = `
+  <div class="movie-card">
+   <img src="${poster}">
+   <h3>${movie.title}</h3>
+   <p>⭐ ${movie.vote_average}</p>
+  </div>
+  `
+ 
+  return card
+ 
+ }
