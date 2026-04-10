@@ -1,6 +1,30 @@
-node_modules/
+# 🔐 Variables sensibles
 .env
-logs/
+
+# 📦 Node modules
+node_modules/
+
+# 📝 Logs
+logs
 *.log
+npm-debug.log*
+
+# 🧪 OS files
 .DS_Store
+Thumbs.db
+
+# 🧰 IDE / éditeurs
 .vscode/
+.idea/
+
+# 📂 Fichiers temporaires
+tmp/
+temp/
+
+# 🗄️ Base de données locale (si tu ajoutes SQLite plus tard)
+*.sqlite
+*.db
+
+# 📦 Build (au cas où)
+dist/
+build/
