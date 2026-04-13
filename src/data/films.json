@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Inception",
+    "image": "https://via.placeholder.com/300x300?text=Inception"
+  },
+  {
+    "name": "The Dark Knight",
+    "image": "https://via.placeholder.com/300x300?text=Dark+Knight"
+  },
+  {
+    "name": "Interstellar",
+    "image": "https://via.placeholder.com/300x300?text=Interstellar"
+  },
+  {
+    "name": "Pulp Fiction",
+    "image": "https://via.placeholder.com/300x300?text=Pulp+Fiction"
+  },
+  {
+    "name": "The Matrix",
+    "image": "https://via.placeholder.com/300x300?text=The+Matrix"
+  },
+  {
+    "name": "Fight Club",
+    "image": "https://via.placeholder.com/300x300?text=Fight+Club"
+  }
+]
