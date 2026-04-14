@@ -87,11 +87,18 @@ const views = {
 
 const router = async () => {
     const path = window.location.hash || '#/';
-    const viewFunc = views[path] || views['#/'];
-    
-    document.getElementById('app-content').innerHTML = viewFunc();
+    const savedUser = JSON.parse(localStorage.getItem('netflix_user'));
+    if (!savedUser && path !== '#/login') {
+        window.location.hash = '#/login';
+        return;
+    }
 
-    // Gestion de la barre de recherche
+    if (savedUser && path === '#/login') {
+        window.location.hash = '#/';
+        return; 
+    }
+    const viewFunc = views[path] || views['#/'];
+    document.getElementById('app-content').innerHTML = viewFunc();
     const searchContainer = document.getElementById('search-container');
     if (searchContainer) {
         if (path === '#/films') {
