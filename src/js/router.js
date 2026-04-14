@@ -25,7 +25,7 @@ const views = {
     '#/films': () => `
         <div class="max-w-6xl mx-auto px-6 mt-12">
             <h2 class="text-2xl font-bold text-white border-l-4 border-red-900 pl-4 mb-8">Movies</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10" id="films-container">
+            <div id="films-container" class="flex flex-col gap-8">
             </div>
         </div>
     `,
