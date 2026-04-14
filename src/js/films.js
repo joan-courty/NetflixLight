@@ -1,37 +1,49 @@
-async function loadFilms() {
-    try {
-        const response = await fetch('../data/films.json');
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error: ${response.status}`);
-        }
+const loadFilms = async () => {
+    const container = document.getElementById('films-container');
+    if (!container) return;
 
-        const films = await response.json();
-        const container = document.getElementById('films-container');
-        window.showMovieDetails = (name, image) => {
-            const movieData = { name, image };
-            localStorage.setItem('selectedMovie', JSON.stringify(movieData));
-            window.location.hash = '#/details';
-        };
-        container.innerHTML = '';
-        films.forEach(film => {
+    container.innerHTML = '<p class="text-white text-center col-span-full">Loading movies...</p>';
+
+    try {
+        const response = await fetch('/movies/trending');
+        const data = await response.json();
+
+        const movies = data.results;
+
+        container.innerHTML = ''; 
+
+        movies.forEach(movie => {
             const filmDiv = document.createElement('div');
-            filmDiv.className = 'flex flex-col gap-4 w-full';
-            const imageUrl = film.image || 'https://via.placeholder.com/300x300?text=No+Image';
-            
+            const imageUrl = movie.poster_path 
+                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` 
+                : 'https://via.placeholder.com/500x750?text=No+Poster';
+
+            const safeTitle = movie.title.replace(/'/g, "\\'");
+
             filmDiv.innerHTML = `
-                <div onclick="showMovieDetails('${film.name.replace(/'/g, "\\'")}', '${film.image}')" 
-                class="aspect-square bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden hover:bg-white/20 transition duration-300 relative cursor-pointer group">
-                <img src="${film.image}" alt="${film.name}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                <h3 class="absolute bottom-0 left-0 right-0 text-white text-center font-bold text-xl uppercase tracking-wider bg-black/60 p-2">
-                    ${film.name}
-                </h3>
-    </div>
-`;
+                <div onclick="showMovieDetails('${safeTitle}', '${imageUrl}', '${movie.id}')" 
+                     class="group relative bg-slate-900 rounded-xl overflow-hidden cursor-pointer hover:scale-105 transition duration-300 shadow-2xl">
+                    
+                    <img src="${imageUrl}" alt="${movie.title}" class="w-full h-full object-cover">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                        <h3 class="text-white font-bold text-lg">${movie.title}</h3>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="text-yellow-400 text-sm font-bold">Mark : ${movie.vote_average.toFixed(1)}</span>
+                            <span class="text-gray-300 text-xs">${movie.release_date ? movie.release_date.split('-')[0] : ''}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
             container.appendChild(filmDiv);
         });
     } catch (error) {
-        console.error('Error during the load of films:', error);
-        document.getElementById('films-container').innerHTML = '<p class="text-red-500">Error during the load of films.</p>';
+        console.error('Error the load of the movie:', error);
+        container.innerHTML = '<p class="text-red-500 text-center col-span-full">Failed to load movies from the server.</p>';
     }
-}
+};
+window.showMovieDetails = (title, image, id) => {
+    const movieData = { title, image, id };
+    localStorage.setItem('selectedMovie', JSON.stringify(movieData));
+    window.location.hash = '#/details';
+};
