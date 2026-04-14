@@ -14,3 +14,6 @@ app.use('/user', require('./routes/user'));
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000');
 });
+require('dotenv').config();
+
+console.log(process.env.TMDB_API_KEY); 

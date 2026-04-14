@@ -8,3 +8,5 @@ const tmdb = axios.create({
 });
 
 module.exports = tmdb;
+const BASE_URL = process.env.TMDB_BASE_URL;
+const API_KEY = process.env.TMDB_API_KEY;
