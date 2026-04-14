@@ -115,7 +115,7 @@ const router = async () => {
     if (path === '#/details') {
         const movie = JSON.parse(localStorage.getItem('selectedMovie'));
         if (movie) {
-            document.getElementById('details-title').innerText = movie.name;
+            document.getElementById('details-title').innerText = movie.title;
             document.getElementById('details-poster').src = movie.image || 'https://via.placeholder.com/300x300?text=No+Image';
             document.getElementById('details-backdrop').style.backgroundImage = `url(${movie.image || ''})`;
             document.getElementById('details-overview').innerText = "Synopsis coming soon from the TMDB API...";
