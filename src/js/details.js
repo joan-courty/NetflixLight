@@ -1,14 +1,22 @@
 window.fetchFullDetails = async (movieId) => {
     try {
-        const [detailsRes, creditsRes, similarRes] = await Promise.all([
-            fetch(`/movies/${movieId}`),
-            fetch(`/movies/${movieId}/credits`),
-            fetch(`/movies/${movieId}/similar`)
+        const movieData = JSON.parse(localStorage.getItem('selectedMovie')) || {};
+        const type = movieData.type || 'movie'; 
+        const basePath = type === 'tv' ? '/tv' : '/movies';
+
+        const [detailsRes, creditsRes, similarRes, favRes, videosRes] = await Promise.all([
+            fetch(`${basePath}/${movieId}`),
+            fetch(`${basePath}/${movieId}/credits`),
+            fetch(`${basePath}/${movieId}/similar`),
+            fetch(`/user/favorites`),
+            fetch(`${basePath}/${movieId}/videos`)
         ]);
 
         const details = await detailsRes.json();
         const credits = await creditsRes.json();
         const similar = await similarRes.json();
+        const favoriteIds = await favRes.json();
+        const videosData = await videosRes.json();
 
         // Info
         document.getElementById('details-title').innerText = details.title || details.name;
@@ -44,6 +52,30 @@ window.fetchFullDetails = async (movieId) => {
                 <img src="https://image.tmdb.org/t/p/w300${m.poster_path}" class="rounded-lg shadow-lg">
             </div>
         `).join('');
+        const trailerContainer = document.getElementById('trailer-container');
+        const trailerIframe = document.getElementById('movie-trailer');
+        const noTrailerMsg = document.getElementById('no-trailer-msg');
+
+        // On cherche le trailer du film
+        let trailer = null;
+        if (videosData.results && videosData.results.length > 0) {
+            trailer = videosData.results.find(v => v.site === 'YouTube' && v.type === 'Trailer');
+            // Si pas de trailer, on prend la première vidéo YouTube dispo
+            if (!trailer) {
+                trailer = videosData.results.find(v => v.site === 'YouTube');
+            }
+        }
+
+        if (trailer) {
+            // On injecte l'ID YouTube dans l'URL 
+            trailerIframe.src = `https://www.youtube.com/embed/${trailer.key}?rel=0&showinfo=0`;
+            trailerContainer.classList.remove('hidden');
+            noTrailerMsg.classList.add('hidden');
+        } else {
+            // S'il n'y a vraiment aucune vidéo
+            trailerContainer.classList.add('hidden');
+            noTrailerMsg.classList.remove('hidden');
+        }
 
     } catch (err) {
         console.error("Failed to load movie details:", err);

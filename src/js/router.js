@@ -81,6 +81,15 @@ const views = {
                     <h3 class="text-2xl font-bold mb-6">Similar Content</h3>
                     <div id="similar-movies" class="flex gap-4 overflow-x-auto pb-8 no-scrollbar"></div>
                 </div>
+                <div class="mt-20 mb-20 max-w-4xl mx-auto">
+                    <h3 class="text-2xl font-bold mb-6 border-l-4 border-red-700 pl-4">Official Trailer</h3>
+                    
+                    <div id="trailer-container" class="relative w-full overflow-hidden rounded-2xl shadow-2xl hidden" style="padding-top: 56.25%;">
+                        <iframe id="movie-trailer" class="absolute top-0 left-0 w-full h-full border-0" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                    
+                    <p id="no-trailer-msg" class="text-gray-500 italic hidden">No official trailer available for this content.</p>
+                </div>
             </div>
         </div>
     `,
@@ -184,7 +193,7 @@ const router = async () => {
         }
         if (typeof window.loadFavorites === 'function') window.loadFavorites();
     }
-    
+
     // Page Login / Inscription
     if (path === '#/login') {
         const authForm = document.getElementById('auth-form');
