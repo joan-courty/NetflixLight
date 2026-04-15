@@ -14,40 +14,72 @@ const updateNavbar = () => {
 
 const views = {
     '#/': () => `
-        <div class="max-w-6xl mx-auto px-6 mt-12">
-            <h2 class="text-2xl font-bold text-white border-l-4 border-red-900 pl-4 mb-8">Who are we?</h2>
-            <div class="font-bold text-white pl-4 mb-8">
-                It's a project made by COURTY Joan and ASLI Othmane, The goal of this project is to create an copy og Netflix, but without the movies because of copyright, so we've just created a website which shows all of the informations about the movies.
+        <div id="hero-banner" class="w-full h-[80vh] relative mb-12 flex items-end pb-20 px-6 md:px-12 overflow-hidden">
+            <div id="hero-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+            
+            <div class="relative max-w-3xl z-10">
+                <h1 id="hero-title" class="text-5xl md:text-7xl font-black mb-4 uppercase tracking-tighter"></h1>
+                <p id="hero-overview" class="text-lg text-gray-200 line-clamp-3 mb-8 max-w-xl"></p>
+                <div class="flex gap-4">
+                    <button id="hero-info" class="bg-gray-500/50 text-white px-8 py-3 rounded-md font-bold hover:bg-gray-500/70 transition backdrop-blur-md">
+                        More Info
+                    </button>
+                </div>
             </div>
-            <div class="text-2xl font-bold text-white pl-20 mb-8">ENJOY !</div>
+        </div>
+
+        <div id="home-content" class="container mx-auto flex flex-col gap-12">
+            <div id="trending-home-container"></div>
+            
+            <div class="px-6 py-12 border-t border-white/10 mt-10">
+                <h2 class="text-2xl font-bold text-white border-l-4 border-red-900 pl-4 mb-4">Who are we?</h2>
+                <p class="text-gray-400 italic">
+                    It's a project made by COURTY Joan and ASLI Othmane, The goal of this project is to create an copy og Netflix, but without the movies because of copyright, so we've just created a website which shows all of the informations about the movies.
+                </p>
+            </div>
         </div>
     `,
     '#/films': () => `
         <div class="max-w-6xl mx-auto px-6 mt-12">
             <h2 class="text-2xl font-bold text-white border-l-4 border-red-900 pl-4 mb-8">Movies</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10" id="films-container">
+            <div id="films-container" class="flex flex-col gap-8">
             </div>
         </div>
     `,
-    '#/details': () => `
-        <div id="movie-details-container" class="relative min-h-screen">
-            <div id="details-backdrop" class="absolute inset-0 w-full h-[70vh] bg-cover bg-center opacity-30 mask-gradient"></div>
+   '#/details': () => `
+        <div id="movie-details-container" class="relative min-h-screen pb-20 text-white">
+            <div id="details-backdrop" class="absolute inset-0 w-full h-[70vh] bg-cover bg-center opacity-20"></div>
             
-            <div class="relative container mx-auto px-6 pt-32 flex flex-col md:flex-row gap-12">
-                <img id="details-poster" src="" class="w-64 h-96 rounded-2xl shadow-2xl border border-white/10 object-cover">
-                
-                <div class="flex-1">
-                    <h1 id="details-title" class="text-5xl font-extrabold mb-4">Loading...</h1>
-                    <div class="flex items-center gap-4 mb-6">
-                        <span id="details-year" class="text-gray-400 font-bold"></span>
-                        <span id="details-rating" class="bg-red-900 px-3 py-1 rounded-full text-sm font-bold"></span>
-                        <button id="add-favorite" class="text-red-500 hover:text-red-400 transition text-2xl">Like</button>
-                    </div>
-                    <p id="details-overview" class="text-xl text-gray-300 leading-relaxed mb-8 max-w-2xl"></p>
+            <div class="relative container mx-auto px-6 pt-32">
+                <div class="flex flex-col md:row gap-12">
+                    <img id="details-poster" src="" class="w-64 h-96 rounded-2xl shadow-2xl border border-white/10 object-cover">
                     
-                    <h3 class="text-xl font-bold mb-4 border-l-4 border-red-700 pl-4">Main Cast</h3>
-                    <div id="details-cast" class="flex gap-4 overflow-x-auto pb-4">
+                    <div class="flex-1">
+                        <h1 id="details-title" class="text-5xl font-extrabold mb-4">Loading...</h1>
+                        
+                        <div class="flex items-center gap-4 mb-6 text-sm">
+                            <span id="details-year" class="text-gray-400 font-bold"></span>
+                            <span id="details-runtime" class="text-gray-400"></span>
+                            <span id="details-rating" class="bg-red-700 px-3 py-1 rounded-full font-bold"></span>
+                            <button id="favorite-btn" class="bg-white/10 hover:bg-white/20 px-4 py-1 rounded-full border border-white/20 transition">
+                                Add to Watchlist
+                            </button>
                         </div>
+
+                        <div id="details-genres" class="flex gap-2 mb-8"></div>
+
+                        <h3 class="text-xl font-bold mb-2 text-red-600">Synopsis</h3>
+                        <p id="details-overview" class="text-lg text-gray-300 leading-relaxed mb-10 max-w-3xl"></p>
+                        
+                        <h3 class="text-xl font-bold mb-4 border-l-4 border-red-700 pl-4">Main Cast</h3>
+                        <div id="details-cast" class="flex gap-4 overflow-x-auto pb-6 no-scrollbar"></div>
+                    </div>
+                </div>
+
+                <div class="mt-20">
+                    <h3 class="text-2xl font-bold mb-6">Similar Content</h3>
+                    <div id="similar-movies" class="flex gap-4 overflow-x-auto pb-8 no-scrollbar"></div>
                 </div>
             </div>
         </div>
@@ -82,7 +114,16 @@ const views = {
                 <button id="auth-toggle" class="text-red-500 font-bold hover:underline ml-1">Sign Up</button>
             </p>
         </div>
-    `
+    `,
+    '#/favorites': () => `
+        <div class="max-w-6xl mx-auto px-6 mt-12 mb-20 text-white min-h-[60vh]">
+            <h2 class="text-3xl font-extrabold border-l-4 border-red-900 pl-4 mb-8">My Watchlist</h2>
+            
+            <div id="favorites-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <p class="text-gray-400 col-span-full">Loading your favorites...</p>
+            </div>
+        </div>
+    `,
 };
 
 const router = async () => {
@@ -100,28 +141,50 @@ const router = async () => {
     const viewFunc = views[path] || views['#/'];
     document.getElementById('app-content').innerHTML = viewFunc();
     const searchContainer = document.getElementById('search-container');
+
     if (searchContainer) {
-        if (path === '#/films') {
-            searchContainer.classList.remove('hidden');
-            searchContainer.classList.add('flex');
-            if (typeof loadFilms === 'function') loadFilms(); 
-        } else {
+        if (path === '#/login') {
             searchContainer.classList.add('hidden');
             searchContainer.classList.remove('flex');
+        } else {
+            searchContainer.classList.remove('hidden');
+            searchContainer.classList.add('flex');
         }
     }
 
     // Page de détails
     if (path === '#/details') {
         const movie = JSON.parse(localStorage.getItem('selectedMovie'));
-        if (movie) {
-            document.getElementById('details-title').innerText = movie.name;
-            document.getElementById('details-poster').src = movie.image || 'https://via.placeholder.com/300x300?text=No+Image';
-            document.getElementById('details-backdrop').style.backgroundImage = `url(${movie.image || ''})`;
-            document.getElementById('details-overview').innerText = "Synopsis coming soon from the TMDB API...";
+        if (movie && movie.id) {
+            if (typeof window.fetchFullDetails === 'function') {
+                window.fetchFullDetails(movie.id);
+            }
         }
     }
 
+    // Page films
+    if (path === '#/films') {
+        searchContainer.classList.remove('hidden');
+        searchContainer.classList.add('flex');
+        if (typeof loadFilms === 'function') loadFilms(); 
+    } else if (path === '#/') {
+        if (typeof window.loadHome === 'function') window.loadHome();
+        searchContainer.classList.add('hidden');
+        searchContainer.classList.remove('flex');
+    } else {
+        searchContainer.classList.add('hidden');
+        searchContainer.classList.remove('flex');
+    }
+
+    // Page Favoris
+    if (path === '#/favorites') {
+        if (searchContainer) {
+            searchContainer.classList.add('hidden');
+            searchContainer.classList.remove('flex');
+        }
+        if (typeof window.loadFavorites === 'function') window.loadFavorites();
+    }
+    
     // Page Login / Inscription
     if (path === '#/login') {
         const authForm = document.getElementById('auth-form');
