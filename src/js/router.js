@@ -142,6 +142,16 @@ const router = async () => {
     document.getElementById('app-content').innerHTML = viewFunc();
     const searchContainer = document.getElementById('search-container');
 
+    if (searchContainer) {
+        if (path === '#/login') {
+            searchContainer.classList.add('hidden');
+            searchContainer.classList.remove('flex');
+        } else {
+            searchContainer.classList.remove('hidden');
+            searchContainer.classList.add('flex');
+        }
+    }
+
     // Page de détails
     if (path === '#/details') {
         const movie = JSON.parse(localStorage.getItem('selectedMovie'));
