@@ -58,7 +58,40 @@ const createCarouselRow = async (container, title, endpoint) => {
     container.appendChild(rowWrapper);
 };
 
+window.loadHome = async () => {
+    const banner = document.getElementById('hero-banner');
+    const trendingContainer = document.getElementById('trending-home-container');
+    if (!trendingContainer) return;
 
+    try {
+        const response = await fetch('/movies/trending');
+        const data = await response.json();
+        const movies = data.results;
+
+        // Gestion du hero banner
+        const randomIndex = Math.floor(Math.random() * movies.length);
+        const hero = movies[randomIndex];
+
+        document.getElementById('hero-bg').style.backgroundImage = `url(https://image.tmdb.org/t/p/original${hero.backdrop_path})`;
+        document.getElementById('hero-title').innerText = hero.title || hero.name;
+        document.getElementById('hero-overview').innerText = hero.overview;
+        
+        // Banner clicable
+        document.getElementById('hero-info').onclick = () => showMovieDetails(
+            (hero.title || hero.name).replace(/'/g, "\\'"), 
+            `https://image.tmdb.org/t/p/w500${hero.poster_path}`, 
+            hero.id, 
+            hero.media_type
+        );
+
+        // Gestion carrousel
+        trendingContainer.innerHTML = ''; // Clear
+        await createCarouselRow(trendingContainer, "Current Trends", "/movies/trending", "movie");
+
+    } catch (error) {
+        console.error("Error loading home:", error);
+    }
+};
 
 window.loadFilms = async () => {
     const container = document.getElementById('films-container');
