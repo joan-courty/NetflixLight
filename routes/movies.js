@@ -85,42 +85,4 @@ router.get('/:id/videos', async (req, res) => {
   }
 });
 
-// --- ROUTES POUR LES DETAILS DES SERIES TV ---
-
-router.get('/tv/:id', async (req, res) => {
-  try {
-    const data = await tmdb.get(`/tv/${req.params.id}`);
-    res.json(data.data);
-  } catch (error) {
-    res.status(500).json({ error: "TV show not found" });
-  }
-});
-
-router.get('/tv/:id/credits', async (req, res) => {
-  try {
-    const data = await tmdb.get(`/tv/${req.params.id}/credits`);
-    res.json(data.data);
-  } catch (error) {
-    res.status(500).json({ error: "TV show credits not found" });
-  }
-});
-
-router.get('/tv/:id/similar', async (req, res) => {
-  try {
-    const data = await tmdb.get(`/tv/${req.params.id}/similar`);
-    res.json(data.data);
-  } catch (error) {
-    res.status(500).json({ error: "Similar TV shows not found" });
-  }
-});
-
-router.get('/tv/:id/videos', async (req, res) => {
-  try {
-    const data = await tmdb.get(`/tv/${req.params.id}/videos`);
-    res.json(data.data);
-  } catch (error) {
-    res.status(500).json({ error: "TV show videos not found" });
-  }
-});
-
 module.exports = router;
