@@ -114,7 +114,16 @@ const views = {
                 <button id="auth-toggle" class="text-red-500 font-bold hover:underline ml-1">Sign Up</button>
             </p>
         </div>
-    `
+    `,
+    '#/favorites': () => `
+        <div class="max-w-6xl mx-auto px-6 mt-12 mb-20 text-white min-h-[60vh]">
+            <h2 class="text-3xl font-extrabold border-l-4 border-red-900 pl-4 mb-8">My Watchlist</h2>
+            
+            <div id="favorites-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <p class="text-gray-400 col-span-full">Loading your favorites...</p>
+            </div>
+        </div>
+    `,
 };
 
 const router = async () => {
@@ -157,6 +166,15 @@ const router = async () => {
         searchContainer.classList.remove('flex');
     }
 
+    // Page Favoris
+    if (path === '#/favorites') {
+        if (searchContainer) {
+            searchContainer.classList.add('hidden');
+            searchContainer.classList.remove('flex');
+        }
+        if (typeof window.loadFavorites === 'function') window.loadFavorites();
+    }
+    
     // Page Login / Inscription
     if (path === '#/login') {
         const authForm = document.getElementById('auth-form');
