@@ -29,25 +29,39 @@ const views = {
             </div>
         </div>
     `,
-    '#/details': () => `
-        <div id="movie-details-container" class="relative min-h-screen">
-            <div id="details-backdrop" class="absolute inset-0 w-full h-[70vh] bg-cover bg-center opacity-30 mask-gradient"></div>
+   '#/details': () => `
+        <div id="movie-details-container" class="relative min-h-screen pb-20 text-white">
+            <div id="details-backdrop" class="absolute inset-0 w-full h-[70vh] bg-cover bg-center opacity-20"></div>
             
-            <div class="relative container mx-auto px-6 pt-32 flex flex-col md:flex-row gap-12">
-                <img id="details-poster" src="" class="w-64 h-96 rounded-2xl shadow-2xl border border-white/10 object-cover">
-                
-                <div class="flex-1">
-                    <h1 id="details-title" class="text-5xl font-extrabold mb-4">Loading...</h1>
-                    <div class="flex items-center gap-4 mb-6">
-                        <span id="details-year" class="text-gray-400 font-bold"></span>
-                        <span id="details-rating" class="bg-red-900 px-3 py-1 rounded-full text-sm font-bold"></span>
-                        <button id="add-favorite" class="text-red-500 hover:text-red-400 transition text-2xl">Like</button>
-                    </div>
-                    <p id="details-overview" class="text-xl text-gray-300 leading-relaxed mb-8 max-w-2xl"></p>
+            <div class="relative container mx-auto px-6 pt-32">
+                <div class="flex flex-col md:row gap-12">
+                    <img id="details-poster" src="" class="w-64 h-96 rounded-2xl shadow-2xl border border-white/10 object-cover">
                     
-                    <h3 class="text-xl font-bold mb-4 border-l-4 border-red-700 pl-4">Main Cast</h3>
-                    <div id="details-cast" class="flex gap-4 overflow-x-auto pb-4">
+                    <div class="flex-1">
+                        <h1 id="details-title" class="text-5xl font-extrabold mb-4">Loading...</h1>
+                        
+                        <div class="flex items-center gap-4 mb-6 text-sm">
+                            <span id="details-year" class="text-gray-400 font-bold"></span>
+                            <span id="details-runtime" class="text-gray-400"></span>
+                            <span id="details-rating" class="bg-red-700 px-3 py-1 rounded-full font-bold"></span>
+                            <button id="favorite-btn" class="bg-white/10 hover:bg-white/20 px-4 py-1 rounded-full border border-white/20 transition">
+                                Add to Watchlist
+                            </button>
                         </div>
+
+                        <div id="details-genres" class="flex gap-2 mb-8"></div>
+
+                        <h3 class="text-xl font-bold mb-2 text-red-600">Synopsis</h3>
+                        <p id="details-overview" class="text-lg text-gray-300 leading-relaxed mb-10 max-w-3xl"></p>
+                        
+                        <h3 class="text-xl font-bold mb-4 border-l-4 border-red-700 pl-4">Main Cast</h3>
+                        <div id="details-cast" class="flex gap-4 overflow-x-auto pb-6 no-scrollbar"></div>
+                    </div>
+                </div>
+
+                <div class="mt-20">
+                    <h3 class="text-2xl font-bold mb-6">Similar Content</h3>
+                    <div id="similar-movies" class="flex gap-4 overflow-x-auto pb-8 no-scrollbar"></div>
                 </div>
             </div>
         </div>
@@ -114,11 +128,10 @@ const router = async () => {
     // Page de détails
     if (path === '#/details') {
         const movie = JSON.parse(localStorage.getItem('selectedMovie'));
-        if (movie) {
-            document.getElementById('details-title').innerText = movie.title;
-            document.getElementById('details-poster').src = movie.image || 'https://via.placeholder.com/300x300?text=No+Image';
-            document.getElementById('details-backdrop').style.backgroundImage = `url(${movie.image || ''})`;
-            document.getElementById('details-overview').innerText = "Synopsis coming soon from the TMDB API...";
+        if (movie && movie.id) {
+            if (typeof window.fetchFullDetails === 'function') {
+                window.fetchFullDetails(movie.id);
+            }
         }
     }
 

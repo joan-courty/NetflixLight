@@ -45,4 +45,34 @@ router.get('/genre/:id', async (req, res) => {
   res.json(data.data);
 });
 
+// Obtenir details des films
+router.get('/:id', async (req, res) => {
+  try {
+    const data = await tmdb.get(`/movie/${req.params.id}`);
+    res.json(data.data);
+  } catch (error) {
+    res.status(500).json({ error: "Movie not found" });
+  }
+});
+
+// 2. Obtenir le casting 
+router.get('/:id/credits', async (req, res) => {
+  try {
+    const data = await tmdb.get(`/movie/${req.params.id}/credits`);
+    res.json(data.data);
+  } catch (error) {
+    res.status(500).json({ error: "Credits not found" });
+  }
+});
+
+// 3. Obtenir les films similaires
+router.get('/:id/similar', async (req, res) => {
+  try {
+    const data = await tmdb.get(`/movie/${req.params.id}/similar`);
+    res.json(data.data);
+  } catch (error) {
+    res.status(500).json({ error: "Similar movies not found" });
+  }
+});
+
 module.exports = router;

@@ -58,6 +58,8 @@ const createCarouselRow = async (container, title, endpoint) => {
     container.appendChild(rowWrapper);
 };
 
+
+
 window.loadFilms = async () => {
     const container = document.getElementById('films-container');
     if (!container) return;
