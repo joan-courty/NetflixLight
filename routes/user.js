@@ -1,38 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db/database');
 
-// Ajouter favori
+// La fausse base de données en mémoire
+let favorites = [];
+
+// Ajouter
 router.post('/favorites', (req, res) => {
-  const { user_id, movie_id, title, poster } = req.body;
-
-  db.run(
-    `INSERT INTO favorites (user_id, movie_id, title, poster)
-     VALUES (?, ?, ?, ?)`,
-    [user_id, movie_id, title, poster],
-    function (err) {
-      if (err) return res.status(500).json(err);
-      res.json({ message: 'Ajouté aux favoris' });
-    }
-  );
+  const { movieId } = req.body;
+  
+  // Évite les doublons
+  if (!favorites.includes(movieId)) {
+      favorites.push(movieId);
+  }
+  res.json({ message: 'Added to favorites' });
 });
 
-// Récupérer favoris
-router.get('/favorites/:user_id', (req, res) => {
-  db.all(
-    `SELECT * FROM favorites WHERE user_id = ?`,
-    [req.params.user_id],
-    (err, rows) => {
-      res.json(rows);
-    }
-  );
+// Récupérer
+router.get('/favorites', (req, res) => {
+  res.json(favorites);
 });
 
-// Supprimer favori
+// Supprimer (Avec la correction de type String !)
 router.delete('/favorites/:id', (req, res) => {
-  db.run(`DELETE FROM favorites WHERE id = ?`, [req.params.id], function () {
-    res.json({ message: 'Supprimé' });
-  });
+  const id = req.params.id;
+  favorites = favorites.filter(f => String(f) !== String(id));
+  res.json({ message: 'Removed' });
 });
 
 module.exports = router;
